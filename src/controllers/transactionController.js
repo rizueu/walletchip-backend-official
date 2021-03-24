@@ -54,7 +54,7 @@ exports.getIncomeAndExpense = async (req, res) => {
 exports.getUserTransactionHistory = async (req, res) => {
   const userID = req.userData.id;
   const { page = 1, limit = 4 } = req.query;
-  const { from, to } = req.body;
+  const { from, to } = req.query;
 
   try {
     const startData = limit * page - limit;
