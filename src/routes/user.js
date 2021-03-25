@@ -1,74 +1,75 @@
 // ======== Server
 // import all modules
-const express = require("express");
-const upload = require("../helpers/upload");
+const express = require('express')
+const upload = require('../helpers/upload')
 
 // import all controllers
-const userController = require("../controllers/userController");
+const userController = require('../controllers/userController')
+const transactionController = require('../controllers/transactionController')
 
 // import all middlewares
-const userMiddleware = require("../middlewares/user");
-const authMiddleware = require("../middlewares/auth");
+const userMiddleware = require('../middlewares/user')
+const authMiddleware = require('../middlewares/auth')
 
 // init router
-const router = express.Router();
+const router = express.Router()
 
 router.get(
-  "/dashboard/profile",
+  '/dashboard/profile',
   authMiddleware.authCheck,
   userController.getUserDetails
-);
+)
 
-router.get("/user/:id", userController.getUserById);
+router.get('/user/:id', userController.getUserById)
 
 router.patch(
-  "/dashboard/update-profile",
+  '/dashboard/update-profile',
   authMiddleware.authCheck,
   userController.updateUserDetails
-);
+)
 
 router.get(
-  "/user",
+  '/user',
   authMiddleware.authCheck,
   userMiddleware.isGetUsersListValid,
   userController.getAllUsers
-);
+)
 
 router.get(
-  "/user/quick-access",
+  '/user/quick-access',
   authMiddleware.authCheck,
   userMiddleware.isGetUsersListValid,
   userController.getLatestTransactions
-);
+)
 
 router.get(
-  "/receiver/:id",
+  '/receiver/:id',
   authMiddleware.authCheck,
   userMiddleware.isGetUsersListValid,
   userController.getReceiverDetails
-);
+)
 
 router.patch(
-  "/user/password/:id",
+  '/user/password/:id',
   authMiddleware.authCheck,
   userMiddleware.checkResetPassword,
   userController.resetPassword
-);
+)
 
 router.patch(
-  "/user",
+  '/user',
   authMiddleware.authCheck,
   userMiddleware.checkEditProfile,
   userController.editProfile
-);
+)
 
 router.patch(
-  "/user/picture",
+  '/user/picture',
   authMiddleware.authCheck,
   userMiddleware.checkUploadFile,
   upload,
   userController.upload
-);
+)
 
 // router.patch(
 //   '/phone/delete',
@@ -78,16 +79,21 @@ router.patch(
 // )
 
 router.patch(
-  "/phone/update",
+  '/phone/update',
   authMiddleware.authCheck,
   userMiddleware.checkEditPhone,
   userController.updateUserDetails
-);
+)
 
 router.patch(
-  "/token/update",
+  '/token/update',
   authMiddleware.authCheck,
   userController.updateUserDetails
-);
+)
 
-module.exports = router;
+router.get(
+  '/user-weekly-chart',
+  authMiddleware.authCheck,
+  transactionController.getUserWeeklyChart
+)
+module.exports = router
