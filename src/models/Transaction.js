@@ -135,7 +135,7 @@ class Transaction extends Database {
         yesterday.toISOString().split('T')[0]
       }T23:59:59`
       week.setDate(week.getDate() - 7)
-      const weekString = `${week.toISOString().split('T')[0]}T23:59:59`
+      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
       console.log(yesterdayString)
       console.log(weekString)
       const query = this.db.query(
@@ -171,7 +171,7 @@ class Transaction extends Database {
     yesterday.setDate(yesterday.getDate() - 1)
     const yesterdayString = `${yesterday.toISOString().split('T')[0]}T23:59:59`
     week.setDate(week.getDate() - 7)
-    const weekString = `${week.toISOString().split('T')[0]}T23:59:59`
+    const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
     console.log(yesterdayString)
     console.log(weekString)
     const sql = `
@@ -201,7 +201,7 @@ class Transaction extends Database {
       month.setMonth(month.getMonth() - 1)
       const monthString = `${month.toISOString().split('T')[0]}T23:59:59`
       week.setDate(week.getDate() - 7)
-      const weekString = `${week.toISOString().split('T')[0]}T23:59:59`
+      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
       console.log(monthString)
       console.log(weekString)
       this.db.query(
@@ -234,7 +234,7 @@ class Transaction extends Database {
     month.setMonth(month.getMonth() - 1)
     const monthString = `${month.toISOString().split('T')[0]}T23:59:59`
     week.setDate(week.getDate() - 7)
-    const weekString = `${week.toISOString().split('T')[0]}T23:59:59`
+    const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
     console.log(monthString)
     console.log(weekString)
     const sql = `
@@ -373,10 +373,8 @@ class Transaction extends Database {
       const yesterdayString = `${
         yesterday.toISOString().split('T')[0]
       }T23:59:59`
-      week.setDate(week.getDate() - 8)
-      const weekString = `${week.toISOString().split('T')[0]}T23:59:59`
-      console.log(yesterdayString)
-      console.log(weekString)
+      week.setDate(week.getDate() - 7)
+      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
       const query = this.db.query(
         `
       SELECT users1.username AS user,
