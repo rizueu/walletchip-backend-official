@@ -22,9 +22,9 @@ exports.getIncomeAndExpense = async (req, res) => {
 
     results.forEach((element) => {
       if (element.did_user_transfer) {
-        incomeArr.push(element.amount)
-      } else {
         expenseArr.push(element.amount)
+      } else {
+        incomeArr.push(element.amount)
       }
     })
 
@@ -54,7 +54,7 @@ exports.getIncomeAndExpense = async (req, res) => {
 exports.getUserTransactionHistory = async (req, res) => {
   const userID = req.userData.id
   const { page = 1, limit = 4 } = req.query
-  const { from, to } = req.body
+  const { from, to } = req.query
 
   try {
     const startData = limit * page - limit
@@ -74,6 +74,7 @@ exports.getUserTransactionHistory = async (req, res) => {
       return response(res, 200, true, 'User has no transactional history')
     } else {
       const modified = results.map((data) => ({
+        id: data.id,
         user: data.user,
         another_user: data.another_user,
         did_user_transfer: data.did_user_transfer,
@@ -120,6 +121,7 @@ exports.getUserTransactionHistoryToday = async (req, res) => {
       return response(res, 200, true, 'User has no transactional history')
     } else {
       const modified = results.map((data) => ({
+        id: data.id,
         user: data.user,
         another_user: data.another_user,
         did_user_transfer: data.did_user_transfer,
@@ -166,6 +168,7 @@ exports.getUserTransactionHistoryWeek = async (req, res) => {
       return response(res, 200, true, 'User has no transactional history')
     } else {
       const modified = results.map((data) => ({
+        id: data.id,
         user: data.user,
         another_user: data.another_user,
         did_user_transfer: data.did_user_transfer,
@@ -212,6 +215,7 @@ exports.getUserTransactionHistoryMonth = async (req, res) => {
       return response(res, 200, true, 'User has no transactional history')
     } else {
       const modified = results.map((data) => ({
+        id: data.id,
         user: data.user,
         another_user: data.another_user,
         did_user_transfer: data.did_user_transfer,

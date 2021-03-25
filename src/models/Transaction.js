@@ -13,7 +13,7 @@ class Transaction extends Database {
     return new Promise((resolve, reject) => {
       const query = this.db.query(
         `
-      SELECT users1.username AS user,
+      SELECT transactions.id, users1.username AS user,
       users2.username AS another_user,
       transactions.is_transfer AS did_user_transfer,
       transactions.amount,
@@ -27,7 +27,7 @@ class Transaction extends Database {
             ? `AND transactions.transactionDate BETWEEN '${data.from}' AND '${data.to}'`
             : ''
         }
-      ORDER BY transactionDate DESC
+      ORDER BY transactions.id DESC
       LIMIT ${data.offset}, ${data.limit}
     `,
         (err, res, field) => {
@@ -64,7 +64,7 @@ class Transaction extends Database {
     users users1 ON users1.id = transactions.user_id
     INNER JOIN users users2 ON users2.id = transactions.receiver_id
     WHERE transactions.user_id = ${id}
-    ORDER BY transactionDate DESC
+    ORDER BY transactions.id DESC
     `
     return new Promise((resolve, reject) => {
       this.db.query(sql, (err, results) => {
@@ -83,7 +83,7 @@ class Transaction extends Database {
       const todayString = today.toISOString().split('T')[0]
       this.db.query(
         `
-      SELECT users1.username AS user,
+      SELECT transactions.id, users1.username AS user,
       users2.username AS another_user,
       transactions.is_transfer AS did_user_transfer,
       transactions.amount,
@@ -93,7 +93,7 @@ class Transaction extends Database {
       users users1 ON users1.id = transactions.user_id
       INNER JOIN users users2 ON users2.id = transactions.receiver_id
       WHERE transactions.user_id = ${data.id} AND transactionDate LIKE '%${todayString}%'
-      ORDER BY transactionDate DESC
+      ORDER BY transactions.id DESC
       LIMIT ${data.offset}, ${data.limit}
     `,
         (err, res, field) => {
@@ -113,7 +113,7 @@ class Transaction extends Database {
     users users1 ON users1.id = transactions.user_id
     INNER JOIN users users2 ON users2.id = transactions.receiver_id
     WHERE transactions.user_id = ${id} AND transactionDate LIKE '%${todayString}%'
-    ORDER BY transactionDate DESC
+    ORDER BY transactions.id DESC
     `
     return new Promise((resolve, reject) => {
       this.db.query(sql, (err, results) => {
@@ -140,7 +140,7 @@ class Transaction extends Database {
       console.log(weekString)
       const query = this.db.query(
         `
-      SELECT users1.username AS user,
+      SELECT transactions.id, users1.username AS user,
       users2.username AS another_user,
       transactions.is_transfer AS did_user_transfer,
       transactions.amount,
@@ -153,7 +153,7 @@ class Transaction extends Database {
         data.id
       } AND transactionDate <= '${yesterdayString}'
       AND transactionDate >= '${weekString}'
-      ORDER BY transactionDate DESC
+      ORDER BY transactions.id DESC
       ${data.offset && data.limit ? `LIMIT ${data.offset}, ${data.limit}` : ''}
     `,
         (err, res, field) => {
@@ -181,7 +181,7 @@ class Transaction extends Database {
     INNER JOIN users users2 ON users2.id = transactions.receiver_id
     WHERE transactions.user_id = ${id} AND transactionDate <= '${yesterdayString}'
       AND transactionDate >= '${weekString}'
-    ORDER BY transactionDate DESC
+    ORDER BY transactions.id DESC
     `
     return new Promise((resolve, reject) => {
       this.db.query(sql, (err, results) => {
@@ -206,7 +206,7 @@ class Transaction extends Database {
       console.log(weekString)
       this.db.query(
         `
-      SELECT users1.username AS user,
+      SELECT transactions.id, users1.username AS user,
       users2.username AS another_user,
       transactions.is_transfer AS did_user_transfer,
       transactions.amount,
@@ -217,7 +217,7 @@ class Transaction extends Database {
       INNER JOIN users users2 ON users2.id = transactions.receiver_id
       WHERE transactions.user_id = ${data.id} AND transactionDate < '${weekString}'
       AND transactionDate >= '${monthString}'
-      ORDER BY transactionDate DESC
+      ORDER BY transactions.id DESC
       LIMIT ${data.offset}, ${data.limit}
     `,
         (err, res, field) => {
@@ -244,7 +244,7 @@ class Transaction extends Database {
     INNER JOIN users users2 ON users2.id = transactions.receiver_id
     WHERE transactions.user_id = ${id} AND transactionDate < '${weekString}'
     AND transactionDate >= '${monthString}'
-    ORDER BY transactionDate DESC
+    ORDER BY transactions.id DESC
     `
     return new Promise((resolve, reject) => {
       this.db.query(sql, (err, results) => {
