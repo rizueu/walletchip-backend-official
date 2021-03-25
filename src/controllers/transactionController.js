@@ -380,6 +380,7 @@ exports.createTransfer = async (req, res) => {
                         'HomePage'
                       )
                     }
+                    req.socket.emit(data[0].receiver_id, data)
                     return response(res, 200, true, 'Transfer Success', {
                       id: insertTransaction,
                       ...req.body,
