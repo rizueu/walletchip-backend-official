@@ -28,7 +28,7 @@ class Transaction extends Database {
             : ""
         }
       ORDER BY transactions.id DESC
-      LIMIT ${data.offset}, ${data.limit}
+      ${data.offset && data.limit ? `LIMIT ${data.offset}, ${data.limit}` : ""}
     `,
         (err, res, field) => {
           if (err) reject(err);
@@ -132,12 +132,12 @@ class Transaction extends Database {
       const week = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayString = `${
-        yesterday.toISOString().split('T')[0]
-      }T23:59:59`
-      week.setDate(week.getDate() - 7)
-      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
-      console.log(yesterdayString)
-      console.log(weekString)
+        yesterday.toISOString().split("T")[0]
+      }T23:59:59`;
+      week.setDate(week.getDate() - 7);
+      const weekString = `${week.toISOString().split("T")[0]}T00:00:01`;
+      console.log(yesterdayString);
+      console.log(weekString);
       const query = this.db.query(
         `
       SELECT transactions.id, users1.username AS user,
@@ -165,15 +165,15 @@ class Transaction extends Database {
     });
   }
 
-  getWeekTransactionHistoryCount (id) {
-    const yesterday = new Date()
-    const week = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-    const yesterdayString = `${yesterday.toISOString().split('T')[0]}T23:59:59`
-    week.setDate(week.getDate() - 7)
-    const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
-    console.log(yesterdayString)
-    console.log(weekString)
+  getWeekTransactionHistoryCount(id) {
+    const yesterday = new Date();
+    const week = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayString = `${yesterday.toISOString().split("T")[0]}T23:59:59`;
+    week.setDate(week.getDate() - 7);
+    const weekString = `${week.toISOString().split("T")[0]}T00:00:01`;
+    console.log(yesterdayString);
+    console.log(weekString);
     const sql = `
     SELECT COUNT (transactions.user_id)
     FROM transactions INNER JOIN
@@ -196,14 +196,14 @@ class Transaction extends Database {
 
   getUserTransactionMonthHistory(data) {
     return new Promise((resolve, reject) => {
-      const month = new Date()
-      const week = new Date()
-      month.setMonth(month.getMonth() - 1)
-      const monthString = `${month.toISOString().split('T')[0]}T23:59:59`
-      week.setDate(week.getDate() - 7)
-      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
-      console.log(monthString)
-      console.log(weekString)
+      const month = new Date();
+      const week = new Date();
+      month.setMonth(month.getMonth() - 1);
+      const monthString = `${month.toISOString().split("T")[0]}T23:59:59`;
+      week.setDate(week.getDate() - 7);
+      const weekString = `${week.toISOString().split("T")[0]}T00:00:01`;
+      console.log(monthString);
+      console.log(weekString);
       const query = this.db.query(
         `
       SELECT transactions.id, users1.username AS user,
@@ -232,14 +232,14 @@ class Transaction extends Database {
   }
 
   getMonthTransactionHistoryCount(id) {
-    const month = new Date()
-    const week = new Date()
-    month.setMonth(month.getMonth() - 1)
-    const monthString = `${month.toISOString().split('T')[0]}T23:59:59`
-    week.setDate(week.getDate() - 7)
-    const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
-    console.log(monthString)
-    console.log(weekString)
+    const month = new Date();
+    const week = new Date();
+    month.setMonth(month.getMonth() - 1);
+    const monthString = `${month.toISOString().split("T")[0]}T23:59:59`;
+    week.setDate(week.getDate() - 7);
+    const weekString = `${week.toISOString().split("T")[0]}T00:00:01`;
+    console.log(monthString);
+    console.log(weekString);
     const sql = `
     SELECT COUNT (transactions.user_id)
     FROM transactions INNER JOIN
@@ -374,10 +374,10 @@ class Transaction extends Database {
       const week = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayString = `${
-        yesterday.toISOString().split('T')[0]
-      }T23:59:59`
-      week.setDate(week.getDate() - 7)
-      const weekString = `${week.toISOString().split('T')[0]}T00:00:01`
+        yesterday.toISOString().split("T")[0]
+      }T23:59:59`;
+      week.setDate(week.getDate() - 7);
+      const weekString = `${week.toISOString().split("T")[0]}T00:00:01`;
       const query = this.db.query(
         `
       SELECT users1.username AS user,

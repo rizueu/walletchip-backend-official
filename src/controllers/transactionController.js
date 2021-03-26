@@ -14,7 +14,7 @@ const { FILE_URL } = process.env;
 exports.getIncomeAndExpense = async (req, res) => {
   const userID = req.userData.id;
   try {
-    const results = await transactionsModel.getUserTransactionMonthHistory({
+    const results = await transactionsModel.getUserTransactionHistory({
       id: userID,
     });
     const incomeArr = [];
@@ -437,28 +437,30 @@ exports.createTransfer = async (req, res) => {
 };
 
 exports.getUserWeeklyChart = async (req, res) => {
-  const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  const lastWeek = []
+  const arrayOfDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const lastWeek = [];
   for (let index = 1; index < 8; index++) {
-    const day = new Date()
-    day.setDate(day.getDate() - (index))
-    const chartDays = arrayOfDays[day.getDay()]
-    lastWeek.push(chartDays)
+    const day = new Date();
+    day.setDate(day.getDate() - index);
+    const chartDays = arrayOfDays[day.getDay()];
+    lastWeek.push(chartDays);
   }
 
-  const userID = req.userData.id
+  const userID = req.userData.id;
   try {
     const results = await transactionsModel.getUserWeeklyChart(userID);
     if (results.length < 1) {
-      return response(res, 404, false, 'User has no weekly chart')
+      return response(res, 404, false, "User has no weekly chart");
     } else {
       const amountPerDate = {};
       results.forEach((item) => {
         const date = item.transactionDate.toISOString().split("T")[0];
         if (!(`${date}` in amountPerDate)) {
           if (item.did_user_transfer === 1) {
-            amountPerDate[`${date}`] = item.amount * -1
-          } else { amountPerDate[`${date}`] = item.amount }
+            amountPerDate[`${date}`] = item.amount * -1;
+          } else {
+            amountPerDate[`${date}`] = item.amount;
+          }
         } else {
           if (!item.did_user_transfer) {
             amountPerDate[`${date}`] += item.amount;
@@ -468,16 +470,16 @@ exports.getUserWeeklyChart = async (req, res) => {
         }
       });
 
-      const days = Object.keys(amountPerDate).map(date => {
-        const now = new Date(date)
-        return arrayOfDays[now.getDay()]
-      })
+      const days = Object.keys(amountPerDate).map((date) => {
+        const now = new Date(date);
+        return arrayOfDays[now.getDay()];
+      });
 
       const result = {
         amount: Object.values(amountPerDate),
-        days: days
-      }
-      return response(res, 200, true, 'User ', result)
+        days: days,
+      };
+      return response(res, 200, true, "User ", result);
     }
   } catch (err) {
     response(res, 400, false, "Failed to get user weekly chart");
